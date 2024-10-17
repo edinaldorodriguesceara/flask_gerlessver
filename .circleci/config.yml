@@ -28,10 +28,12 @@ jobs:
             docker compose up -d
       - run:
           name: Dependecies
-          command: docker compose exec app pip install -r requirements.txt
+          command: |  
+              docker compose exec bash 
+              pip install -r requirements.txt
       - run:
           name: NPM
-          command: docker compose exec app npm install
+          command: app npm install
       - save_cache:
           name: Save Cache
           key: '{{ checksum "requirements.txt" }}'

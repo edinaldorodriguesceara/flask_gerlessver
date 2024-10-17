@@ -3,10 +3,10 @@ version: 2.1
 workflows:
   ci:
     jobs:
-      - back
+      - backend-test
 
 jobs:
-  back:
+  build-and-test:
     machine:
       image: ubuntu-2204:current
       docker_layer_caching: true
@@ -14,32 +14,29 @@ jobs:
     working_directory: ~/flask_gerlessver
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - deps-{{ checksum "requirements.txt" }}-{{ checksum "package.json" }}
+            
       - run:
-          name: Build
+          name: Build 
           command: |
             ARG_USER_UID=$(id -u) ARG_USER_GID=$(id -g) docker compose config
             ARG_USER_UID=$(id -u) ARG_USER_GID=$(id -g) docker compose build
-      - restore_cache:
-          name: Restore Cache
-          key: '{{ checksum "requirements.txt" }}'
       - run:
           name: Up
-          command: !
-            docker compose up -d
+          command: docker compose up -d
       - run:
-          name: Dependecies
-          command: |  
-              docker compose exec bash 
-              pip install -r requirements.txt
+          name: Dependencies
+          command: |
+            docker compose exec app pip install -r requirements.txt
       - run:
-          name: NPM
-          command: app npm install
+          name:  Dependencies
+          command: |
+            docker compose exec app npm install
       - save_cache:
-          name: Save Cache
-          key: '{{ checksum "requirements.txt" }}'
           paths:
+            - ./venv
             - ./node_modules
-            - ./vendor
-
-    
-           
+          key: deps-{{ checksum "requirements.txt" }}-{{ checksum "package.json" }}
+     

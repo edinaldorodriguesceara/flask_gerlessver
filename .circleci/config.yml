@@ -24,7 +24,9 @@ jobs:
           key: '{{ checksum "requirements.txt" }}'
       - run:
           name: Up
-          command: docker compose up -d
+          command: !
+           docker compose up -d
+           docker compose exec app
       - run:
           name: Dependecies
           command: | 

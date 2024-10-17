@@ -1,11 +1,19 @@
 {
   "name": "teste",
   "version": "1.0.0",
-  "description": "",
+  "description": "![Flask Logo](https://flask.palletsprojects.com/en/3.0.x/_images/flask-horizontal.png)",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edinaldorodriguesceara/flask_gerlessver.git"
+  },
+  "bugs": {
+    "url": "https://github.com/edinaldorodriguesceara/flask_gerlessver/issues"
+  },
+  "homepage": "https://github.com/edinaldorodriguesceara/flask_gerlessver#readme"
 }

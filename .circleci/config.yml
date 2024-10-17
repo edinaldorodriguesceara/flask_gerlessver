@@ -3,7 +3,7 @@ version: 2.1
 workflows:
   ci:
     jobs:
-      - backend-test
+      - back
 
 jobs:
   build-and-test:

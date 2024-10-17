@@ -15,13 +15,16 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Build
-          command: |
-            ARG_USER_UID=$(id -u) ARG_USER_GID=$(id -g) docker compose config
-            ARG_USER_UID=$(id -u) ARG_USER_GID=$(id -g) docker compose build
+          name: List files
+          command: ls -alh ~/flask_gerlessver
       - restore_cache:
           name: Restore Cache
           key: '{{ checksum "requirements.txt" }}'
+      - run:
+          name: Build
+          command: |
+            docker compose config
+            docker compose build
       - run:
           name: Up
           command: |
@@ -35,6 +38,3 @@ jobs:
           paths:
             - ./node_modules
             - ./vendor
-
-    
-           

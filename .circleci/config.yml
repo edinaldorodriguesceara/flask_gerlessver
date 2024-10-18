@@ -26,10 +26,12 @@ jobs:
           command: docker compose up -d
       - run:
           name: Dependências
-          command: docker compose exec -T app npm install
+          command: | 
+            docker compose exec app npm install
+            docker compose exec app pip install
       - run:
           name: Run Tests
-          command: docker compose exec -T app pytest test_app.py
+          command: docker compose exec app pytest test_app.py
       - save_cache:
           name: Save Cache
           key: '{{ checksum "package.json" }}'
@@ -37,5 +39,5 @@ jobs:
             - ./venv
             - ./node_modules
       - run:
-          name: Derrubar containers
+          name: Down
           command: docker compose down

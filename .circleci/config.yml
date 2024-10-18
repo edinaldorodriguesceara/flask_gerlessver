@@ -1,37 +1,50 @@
 version: 2.1
 
 workflows:
-  ci:
+  build-and-test:
     jobs:
-      - back
+      - build_app
 
 jobs:
-  back:
+  build_app:
     machine:
       image: ubuntu-2204:current
       docker_layer_caching: true
     resource_class: medium
-    working_directory: ~/flask_gerlessver
+
     steps:
       - checkout
+
+      - restore_cache:
+          keys:
+            - deps-{{ checksum "requirements.txt" }}-{{ checksum "package.json" }}
+            - deps-
+
       - run:
-          name: List files
-          command: ls -alh ~/flask_gerlessver
-      - run:
-          name: Build
+          name: Configurar e construir o Docker Compose
           command: |
             ARG_USER_UID=$(id -u) ARG_USER_GID=$(id -g) docker compose config
             ARG_USER_UID=$(id -u) ARG_USER_GID=$(id -g) docker compose build
+
       - run:
-          name: Up
-          command: |
-            docker compose up -d
-            docker compose exec app pip install -r requirements.txt
-            docker compose exec app npm install
+          name: Subir containers
+          command: docker compose up -d
+
+      - run:
+          name: Instalar dependências Python
+          command: docker compose exec -T app pip install -r requirements.txt
+
+      - run:
+          name: Instalar dependências Node.js
+          command: docker compose exec -T app npm install
 
       - save_cache:
           name: Save Cache
-          key: '{{ checksum "requirements.txt" }}'
+          key: deps-{{ checksum "requirements.txt" }}-{{ checksum "package.json" }}
           paths:
+            - ./venv
             - ./node_modules
-            - ./vendor
+
+      - run:
+          name: Derrubar containers
+          command: docker compose down

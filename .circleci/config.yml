@@ -17,7 +17,7 @@ jobs:
       - restore_cache:
           key: '{{ checksum "package.json" }}'
       - run:
-          name: Configurar e construir o Docker Compose
+          name: Build
           command: |
             ARG_USER_UID=$(id -u) ARG_USER_GID=$(id -g) docker compose config
             ARG_USER_UID=$(id -u) ARG_USER_GID=$(id -g) docker compose build
@@ -27,7 +27,9 @@ jobs:
       - run:
           name: Dependências
           command: docker compose exec -T app npm install
-
+      - run:
+          name: Run Tests
+          command: docker compose exec -T app pytest test_app.py
       - save_cache:
           name: Save Cache
           key: '{{ checksum "package.json" }}'

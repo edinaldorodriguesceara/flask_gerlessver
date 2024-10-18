@@ -35,4 +35,4 @@ jobs:
             - ./node_modules
       - run:
           name: Down
-          command: docker compose down
+          command: docker compose down 

@@ -20,8 +20,8 @@ jobs:
       - run:
           name: Build
           command: |
-            wget -nv https://raw.githubusercontent.com/juniormesquitadandao/gerlessver/master/flask/Dockerfile
-            wget -nv https://raw.githubusercontent.com/juniormesquitadandao/gerlessver/master/flask/docker-compose.yml
+            ARG_USER_UID=$(id -u) ARG_USER_GID=$(id -g) docker compose config
+            ARG_USER_UID=$(id -u) ARG_USER_GID=$(id -g) docker compose build
       - run:
           name: Up
           command: |

@@ -33,6 +33,4 @@ jobs:
           paths:
             - ./venv
             - ./node_modules
-      - run:
-          name: Down
-          command: docker compose down 
+     

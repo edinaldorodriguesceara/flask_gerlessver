@@ -21,10 +21,10 @@ jobs:
             ARG_USER_UID=$(id -u) ARG_USER_GID=$(id -g) docker compose config
             ARG_USER_UID=$(id -u) ARG_USER_GID=$(id -g) docker compose build
       - run:
-          name: up
+          name: Up
           command: docker compose up -d
       - run:
-          name: Dependências
+          name: Dependencies
           command: docker compose exec -T app npm install
 
       - save_cache:
@@ -34,5 +34,5 @@ jobs:
             - ./venv
             - ./node_modules
       - run:
-          name: Derrubar containers
+          name: Down
           command: docker compose down

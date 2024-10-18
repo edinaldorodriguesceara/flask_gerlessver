@@ -6,11 +6,12 @@ workflows:
       - back
 
 jobs:
-  build_app:
+  back:
     machine:
       image: ubuntu-2204:current
       docker_layer_caching: true
     resource_class: medium
+    working_directory: ~/flask_gerlessver
     steps:
       - checkout
       - restore_cache:

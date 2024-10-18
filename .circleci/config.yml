@@ -17,14 +17,11 @@ jobs:
       - run:
           name: List files
           command: ls -alh ~/flask_gerlessver
-      - restore_cache:
-          name: Restore Cache
-          key: '{{ checksum "requirements.txt" }}'
       - run:
           name: Build
           command: |
-            docker compose config
-            docker compose build
+            wget -nv https://raw.githubusercontent.com/juniormesquitadandao/gerlessver/master/flask/Dockerfile
+            wget -nv https://raw.githubusercontent.com/juniormesquitadandao/gerlessver/master/flask/docker-compose.yml
       - run:
           name: Up
           command: |

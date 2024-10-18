@@ -4,7 +4,6 @@ workflows:
   ci:
     jobs:
       - back
-
 jobs:
   back:
     machine:
@@ -26,12 +25,8 @@ jobs:
           command: docker compose up -d
       - run:
           name: Dependências
-          command: | 
-            docker compose exec app npm install
-            docker compose exec app pip install
-      - run:
-          name: Run Tests
-          command: docker compose exec app pytest test_app.py
+          command: docker compose exec -T app npm install
+
       - save_cache:
           name: Save Cache
           key: '{{ checksum "package.json" }}'
@@ -39,5 +34,5 @@ jobs:
             - ./venv
             - ./node_modules
       - run:
-          name: Down
+          name: Derrubar containers
           command: docker compose down

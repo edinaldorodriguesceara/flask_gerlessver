@@ -3,7 +3,7 @@ version: 2.1
 workflows:
   build-and-test:
     jobs:
-      - build_app
+      - back
 
 jobs:
   build_app:
@@ -11,40 +11,28 @@ jobs:
       image: ubuntu-2204:current
       docker_layer_caching: true
     resource_class: medium
-
     steps:
       - checkout
-
       - restore_cache:
-          keys:
-            - deps-{{ checksum "requirements.txt" }}-{{ checksum "package.json" }}
-            - deps-
-
+          key: '{{ checksum "package.json" }}'
       - run:
           name: Configurar e construir o Docker Compose
           command: |
             ARG_USER_UID=$(id -u) ARG_USER_GID=$(id -g) docker compose config
             ARG_USER_UID=$(id -u) ARG_USER_GID=$(id -g) docker compose build
-
       - run:
-          name: Subir containers
+          name: up
           command: docker compose up -d
-
       - run:
-          name: Instalar dependências Python
-          command: docker compose exec -T app pip install -r requirements.txt
-
-      - run:
-          name: Instalar dependências Node.js
+          name: Dependências
           command: docker compose exec -T app npm install
 
       - save_cache:
           name: Save Cache
-          key: deps-{{ checksum "requirements.txt" }}-{{ checksum "package.json" }}
+          key: '{{ checksum "package.json" }}'
           paths:
             - ./venv
             - ./node_modules
-
       - run:
           name: Derrubar containers
           command: docker compose down

@@ -1,5 +1,7 @@
 # Flask_gerlessver
 
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/edinaldorodriguesceara/flask_gerlessver/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/edinaldorodriguesceara/flask_gerlessver/tree/master)
+
 ![Flask Logo](https://flask.palletsprojects.com/en/3.0.x/_images/flask-horizontal.png)
 
 

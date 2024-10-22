@@ -6,8 +6,8 @@
 https://github.com/juniormesquitadandao/gerlessver
 
 ```bash
-git clone ...
-cd project
+git clone https://github.com/edinaldorodriguesceara/flask_gerlessver
+cd flask_gerlessver
   
   ARG_USER_UID=$(id -u) ARG_USER_GID=$(id -g) docker compose config
   ARG_USER_UID=$(id -u) ARG_USER_GID=$(id -g) docker compose build
